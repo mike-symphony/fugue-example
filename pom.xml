@@ -94,51 +94,10 @@
 
 	<dependencyManagement>
 		<dependencies>
-			
-			
-			<!--sxds <dependency>
-				<groupId>org.symphonyoss.s2.common</groupId>
-				<artifactId>S2-common-http</artifactId>
-				<version>${s2.common.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.symphonyoss.s2.common</groupId>
-				<artifactId>S2-common-dom</artifactId>
-				<version>${s2.common.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.symphonyoss.s2.common</groupId>
-				<artifactId>S2-common-dom-jackson</artifactId>
-				<version>${s2.common.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.symphonyoss.s2.common</groupId>
-				<artifactId>S2-common-crypto</artifactId>
-				<version>${s2.common.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.symphonyoss.s2.japigen</groupId>
-				<artifactId>S2-japigen-template-java</artifactId>
-				<version>${japigen.template.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.symphonyoss.s2.japigen</groupId>
-				<artifactId>S2-japigen-runtime-java</artifactId>
-				<version>${japigen.template.version}</version>
-			</dependency> -->
-
 			<dependency>
 				<groupId>com.google.code.findbugs</groupId>
 				<artifactId>jsr305</artifactId>
 				<version>3.0.2</version>
-			</dependency>
-
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>1.0.13</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -160,17 +119,13 @@
 			<version>${s2.common.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<scope>test</scope>
+			<version>1.0.13</version>
 		</dependency>
 	</dependencies>
 	
