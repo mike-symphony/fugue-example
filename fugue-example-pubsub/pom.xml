@@ -50,26 +50,6 @@
   <build>
     <plugins>
       <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-antrun-plugin</artifactId>
-      <executions>
-        <execution>
-          <!-- The package assembly chmods scripts 555 so we need to delete them 
-            before we do the dependency plugin otherwise it fails with a permission denied 
-            error -->
-          <phase>prepare-package</phase>
-          <goals>
-            <goal>run</goal>
-          </goals>
-          <configuration>
-            <target>
-              <delete dir="${project.build.directory}/${project.artifactId}-${project.version}-bin" />
-            </target>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
-    <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
         <configuration>
@@ -79,9 +59,6 @@
               <alias>${project.name}</alias>
               <build>
                 <from>openjdk:latest</from>
-                <tags><!-- define additional tags for the image -->
-                    <tag>latest</tag>
-                </tags>
                 <assembly>
                   <descriptor>${project.basedir}/src/main/assembly/assemble.xml</descriptor>
                 </assembly>
