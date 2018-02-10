@@ -28,6 +28,8 @@ spec:
       - env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
+        - name: FUGUE_TENANT
+          value: ${FUGUE_TENANT}
         image: ${FUGUE_IMAGE_URI}
         imagePullPolicy: Always
         name: ${project.name}

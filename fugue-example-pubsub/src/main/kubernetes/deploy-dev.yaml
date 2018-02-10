@@ -28,6 +28,8 @@ spec:
       - env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
+        - name: FUGUE_TENANT
+          value: ${FUGUE_TENANT}
         - name: JAVA_ARGS
           value: -Dfugue.environment=dev -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
         image: ${FUGUE_IMAGE_URI}
