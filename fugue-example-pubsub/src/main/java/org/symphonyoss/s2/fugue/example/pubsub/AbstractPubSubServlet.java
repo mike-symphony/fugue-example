@@ -27,21 +27,29 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AbstractPubSubServlet extends HttpServlet
+import org.symphonyoss.s2.fugue.ServletComponent;
+import org.symphonyoss.s2.fugue.di.ComponentDescriptor;
+
+public abstract class AbstractPubSubServlet extends ServletComponent
 {
   private static final long serialVersionUID = 1L;
 
-  private final PubSubServer  server_;
-  private final String        name_;
+  private final String      name_;
+  private IPubSubExmple     pubSubExample_;
   
-  public AbstractPubSubServlet(PubSubServer server, String name)
+  public AbstractPubSubServlet(String name)
   {
-    server_ = server;
     name_ = name;
+  }
+
+  @Override
+  public ComponentDescriptor getComponentDescriptor()
+  {
+    return super.getComponentDescriptor()
+        .addDependency(IPubSubExmple.class, (v) -> pubSubExample_ = v);
   }
 
   @Override
@@ -88,7 +96,7 @@ public class AbstractPubSubServlet extends HttpServlet
     out.println(  "<body>");
     out.println(    "<h1>" + name_ + " Servlet</h1>");
     out.println(    "<h2>Status</h2>");
-    out.println(    "<pre>" + server_.getStatus() + "</pre>");
+    out.println(    "<pre>" + pubSubExample_.getStatus() + "</pre>");
     
     
   }
@@ -104,6 +112,6 @@ public class AbstractPubSubServlet extends HttpServlet
   
   public void error(String format, Object ...args)
   {
-    server_.appendStatus(String.format(format, args));
+    pubSubExample_.appendStatus(String.format(format, args));
   }
 }

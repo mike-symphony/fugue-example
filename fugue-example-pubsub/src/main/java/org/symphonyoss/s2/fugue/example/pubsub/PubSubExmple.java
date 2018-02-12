@@ -23,25 +23,154 @@
 
 package org.symphonyoss.s2.fugue.example.pubsub;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.symphonyoss.s2.common.fault.ProgramFault;
+import org.symphonyoss.s2.fugue.FugueServer;
+import org.symphonyoss.s2.fugue.di.ComponentDescriptor;
+import org.symphonyoss.s2.fugue.di.IDIContext;
 import org.symphonyoss.s2.fugue.di.component.impl.Slf4jLogComponent;
-import org.symphonyoss.s2.fugue.di.impl.DIContext;
 
-public class PubSubExmple extends DIContext
+import com.google.api.gax.rpc.ApiException;
+import com.google.cloud.ServiceOptions;
+import com.google.cloud.pubsub.v1.SubscriptionAdminClient;
+import com.google.cloud.pubsub.v1.TopicAdminClient;
+import com.google.pubsub.v1.PushConfig;
+import com.google.pubsub.v1.Subscription;
+import com.google.pubsub.v1.SubscriptionName;
+import com.google.pubsub.v1.Topic;
+import com.google.pubsub.v1.TopicName;
+
+public class PubSubExmple extends FugueServer implements IPubSubExmple
 {
+  public static final String TOPIC_NAME        = "Test-Topic";
+  public static final String SUBSCRIPTION_NAME = "Test-Topic-Subscription";
+  
+  private static final Logger log_ = LoggerFactory.getLogger(PubSubExmple.class);
 
+  private StringBuilder status_ = new StringBuilder("Initializing...\n");
+  
   public PubSubExmple()
   {
-    register(new Slf4jLogComponent())
-      .register(new PubSubServer(this, "PubSubExmple"));
+    super("PubSubExmple", 8080);
   }
   
-  private void run()
+  @Override
+  protected void registerComponents(IDIContext diContext)
   {
-    resolveAndStart();
+    diContext.register(new Slf4jLogComponent())
+    .register(new PubServlet())
+    .register(new SubServlet());
   }
 
-  public static void main(String[] args)
+  @Override
+  public ComponentDescriptor getComponentDescriptor()
   {
-    new PubSubExmple().run();
+    return super.getComponentDescriptor()
+        .addProvidedInterface(IPubSubExmple.class)
+        .addStart(() -> startPubSub());
+  }
+  
+  @Override
+  public void appendStatus(String message)
+  {
+    status_.append(message);
+    if(!message.endsWith("\n"))
+      status_.append('\n');
+  }
+  
+  @Override
+  public String getStatus()
+  {
+    return status_.toString();
+  }
+
+  private void startPubSub()
+  {
+    // Your Google Cloud Platform project ID
+    String projectId = ServiceOptions.getDefaultProjectId();
+    
+    createTopic(projectId);
+  }
+
+  private void createTopic(String projectId)
+  {
+    log_.info("About to create topic");
+    
+    // Create a new topic
+    TopicName topicName = TopicName.of(projectId, TOPIC_NAME);
+    try (TopicAdminClient topicAdminClient = TopicAdminClient.create())
+    {
+      Topic topic = topicAdminClient.createTopic(topicName);
+      appendStatus("Created topic");
+      
+      log_.info("Topic {} created.", topic);
+      
+      createSubscription(projectId, topicName);
+    }
+    catch (ApiException e)
+    {
+      switch(e.getStatusCode().getCode())
+      {
+        case ALREADY_EXISTS:
+          appendStatus("Topic already exists");
+          break;
+        
+        default:
+          appendStatus("Cannot create topic: " + e.getStatusCode().getCode());
+          log_.error("Failed to create topic, HTTP {} retryable {}", e.getStatusCode().getCode(), 
+              e.isRetryable(), e);
+          throw new ProgramFault(e);
+      }
+
+    }
+    catch (Exception e)
+    {
+      log_.error("Failed to create topic", e);
+      throw new ProgramFault(e);
+    }
+  }
+  
+  private void createSubscription(String projectId, TopicName topicName)
+  {
+    log_.info("About to create subscription");
+
+    // Create a new subscription
+    SubscriptionName subscriptionName = SubscriptionName.of(projectId, SUBSCRIPTION_NAME);
+    try (SubscriptionAdminClient subscriptionAdminClient = SubscriptionAdminClient.create())
+    {
+      // create a pull subscription with default acknowledgement deadline
+      Subscription subscription =
+          subscriptionAdminClient.createSubscription(
+              subscriptionName, topicName, PushConfig.getDefaultInstance(), 0);
+      
+      log_.info("Subscription {} created.", subscription);
+    }
+    catch (ApiException e)
+    {
+      switch(e.getStatusCode().getCode())
+      {
+        case ALREADY_EXISTS:
+          appendStatus("Subscription already exists");
+          break;
+        
+        default:
+          appendStatus("Cannot create subscription: " + e.getStatusCode().getCode());
+      }
+      log_.error("Failed to create topic, HTTP {} retryable {}", e.getStatusCode().getCode(), 
+          e.isRetryable(), e);
+    }
+    catch (Exception e)
+    {
+      log_.error("Failed to create topic", e);
+    }
+    
+
+    
+  }
+
+  public static void main(String[] args) throws InterruptedException
+  {
+    new PubSubExmple().start().join();
   }
 }

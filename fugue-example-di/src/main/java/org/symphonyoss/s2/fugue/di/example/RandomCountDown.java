@@ -26,40 +26,51 @@ package org.symphonyoss.s2.fugue.di.example;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.symphonyoss.s2.fugue.di.IComponent;
+import org.symphonyoss.s2.fugue.FugueServer;
+import org.symphonyoss.s2.fugue.di.ComponentDescriptor;
+import org.symphonyoss.s2.fugue.di.IDIContext;
 import org.symphonyoss.s2.fugue.di.component.ILogComponent;
 import org.symphonyoss.s2.fugue.di.component.IRandomNumberProvider;
-import org.symphonyoss.s2.fugue.di.impl.ComponentDescriptor;
-import org.symphonyoss.s2.fugue.di.impl.DIContext;
+import org.symphonyoss.s2.fugue.di.component.impl.RandomNumberProvider;
+import org.symphonyoss.s2.fugue.di.component.impl.Slf4jLogComponent;
 
-public class RandomCountDown implements IComponent
+public class RandomCountDown extends FugueServer
 {
-  private DIContext context_;
   private ILogComponent log_;
   private IRandomNumberProvider random_;
 
-  public RandomCountDown(DIContext context)
+  public RandomCountDown()
   {
-    context_ = context;
+    super("RandomCountDown", 8080);
   }
-
+  
   @Override
   public ComponentDescriptor getComponentDescriptor()
   {
-    return new ComponentDescriptor()
+    return super.getComponentDescriptor()
         .addDependency(IRandomNumberProvider.class, (v) -> random_ = v)
         .addDependency(ILogComponent.class,         (v) -> log_ = v)
-        .addStart(() -> start())
-        .addStop(() -> stop());
+        .addStart(() -> startCountdown())
+        .addStop(() -> log_.info("RandomCountDown stopped."));
+  }
+
+  @Override
+  protected void registerComponents(IDIContext diContext)
+  {
+    diContext.register(new RandomNumberProvider())
+      .register(new Slf4jLogComponent());;
+  }
+
+  public static void main(String[] args) throws InterruptedException
+  {
+    new RandomCountDown().start().join();
   }
   
-  public void start()
+  public void startCountdown()
   {
     log_.info("RandomCountDown started.");
     
-    ExecutorService exec = Executors.newSingleThreadExecutor();
-    
-    exec.submit(() ->
+    submit(() ->
     {
       int count = random_.nextInt(10);
       
@@ -75,14 +86,7 @@ public class RandomCountDown implements IComponent
         }
       }
       
-      context_.stop();
-      exec.shutdown();
+      stop();
     });
   }
-
-  public void stop()
-  {
-    log_.info("RandomCountDown stopped.");
-  }
-
 }

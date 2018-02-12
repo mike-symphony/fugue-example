@@ -46,12 +46,17 @@ public class PubServlet extends AbstractPubSubServlet
   private static final long serialVersionUID = 1L;
   private static final Logger log_ = LoggerFactory.getLogger(PubServlet.class);
 
-  public PubServlet(PubSubServer server)
+  public PubServlet()
   {
-    super(server, "Publisher");
+    super("Publisher");
   }
   
-  
+  @Override
+  public String getUrlPath()
+  {
+    return "/pub";
+  }
+
   @Override
   public void handleGet(PrintWriter out)
   {
@@ -63,13 +68,12 @@ public class PubServlet extends AbstractPubSubServlet
     out.println(  "<button type=\"submit\">Publish</button>");
     out.println("</form>");
   }
-
-
+  
   @Override
   public void handlePost(PrintWriter out, HttpServletRequest req)
   {
     String message = req.getParameter("message");
-    TopicName topicName = TopicName.of(ServiceOptions.getDefaultProjectId(), PubSubServer.TOPIC_NAME);
+    TopicName topicName = TopicName.of(ServiceOptions.getDefaultProjectId(), PubSubExmple.TOPIC_NAME);
     Publisher publisher = null;
     List<ApiFuture<String>> messageIdFutures = new ArrayList<>();
 

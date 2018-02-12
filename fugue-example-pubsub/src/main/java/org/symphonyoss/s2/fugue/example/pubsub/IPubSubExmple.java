@@ -1,7 +1,7 @@
 /*
  *
  *
- * Copyright 2017 Symphony Communication Services, LLC.
+ * Copyright 2018 Symphony Communication Services, LLC.
  *
  * Licensed to The Symphony Software Foundation (SSF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,28 +21,13 @@
  * under the License.
  */
 
-package org.symphonyoss.s2.fugue.di.example;
+package org.symphonyoss.s2.fugue.example.pubsub;
 
-import org.symphonyoss.s2.fugue.di.component.impl.RandomNumberProvider;
-import org.symphonyoss.s2.fugue.di.component.impl.Slf4jLogComponent;
-import org.symphonyoss.s2.fugue.di.impl.DIContext;
-
-public class RandomCountDownApplication extends DIContext
+public interface IPubSubExmple
 {
-  public RandomCountDownApplication()
-  {
-    register(new RandomNumberProvider())
-    .register(new RandomCountDown(this))
-    .register(new Slf4jLogComponent());
-  }
-  
-  public static void main(String[] argv)
-  {
-    new RandomCountDownApplication().run();
-  }
 
-  private void run()
-  {
-    resolveAndStart();
-  }
+  String getStatus();
+
+  void appendStatus(String message);
+
 }

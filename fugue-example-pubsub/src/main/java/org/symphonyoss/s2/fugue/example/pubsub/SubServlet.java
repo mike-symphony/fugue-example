@@ -45,9 +45,15 @@ public class SubServlet extends AbstractPubSubServlet
   private static final long serialVersionUID = 1L;
   private static final Logger log_ = LoggerFactory.getLogger(SubServlet.class);
 
-  public SubServlet(PubSubServer server)
+  public SubServlet()
   {
-    super(server, "Subscriber");
+    super("Subscriber");
+  }
+  
+  @Override
+  public String getUrlPath()
+  {
+    return "/sub";
   }
 
   @Override
@@ -59,7 +65,7 @@ public class SubServlet extends AbstractPubSubServlet
       try (SubscriberStub subscriber = GrpcSubscriberStub.create(subscriptionAdminSettings))
       {
         String      projectId         = ServiceOptions.getDefaultProjectId();
-        String      subscriptionId    = PubSubServer.SUBSCRIPTION_NAME;
+        String      subscriptionId    = PubSubExmple.SUBSCRIPTION_NAME;
         int         numOfMessages     = 1; // max number of messages to be pulled
         String      subscriptionName  = SubscriptionName.of(projectId, subscriptionId).toString();
         PullRequest pullRequest = PullRequest.newBuilder()

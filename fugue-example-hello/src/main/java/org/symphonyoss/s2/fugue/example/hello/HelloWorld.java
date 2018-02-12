@@ -23,25 +23,35 @@
 
 package org.symphonyoss.s2.fugue.example.hello;
 
+import org.symphonyoss.s2.fugue.FugueServer;
+import org.symphonyoss.s2.fugue.di.ComponentDescriptor;
+import org.symphonyoss.s2.fugue.di.IDIContext;
 import org.symphonyoss.s2.fugue.di.component.impl.Slf4jLogComponent;
-import org.symphonyoss.s2.fugue.di.impl.DIContext;
 
-public class HelloWorld extends DIContext
+public class HelloWorld extends FugueServer
 {
 
   public HelloWorld()
   {
-    register(new Slf4jLogComponent())
-      .register(new HelloWorldServer(this, "HelloWorld"));
+    super("HelloWorld", 8080);
   }
   
-  private void run()
+  @Override
+  public ComponentDescriptor getComponentDescriptor()
   {
-    resolveAndStart();
+    return super.getComponentDescriptor()
+        .addStart(() -> openBrowser());
   }
 
-  public static void main(String[] args)
+  @Override
+  protected void registerComponents(IDIContext diContext)
   {
-    new HelloWorld().run();
+    diContext.register(new Slf4jLogComponent())
+      .register(new HelloWorldServlet());
+  }
+
+  public static void main(String[] args) throws InterruptedException
+  {
+    new HelloWorld().start().join();
   }
 }

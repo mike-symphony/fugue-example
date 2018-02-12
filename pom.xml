@@ -31,7 +31,7 @@
 
 	<groupId>org.symphonyoss.s2.fugue</groupId>
 	<artifactId>fugue-example</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>fugue</name>
 	<description>Fugue example projects.</description>
 	<url>https://github.com/SymphonyOSF/fugue-example</url>
@@ -75,8 +75,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<s2.common.version>0.1.11</s2.common.version>
-		<fugue.version>0.0.1</fugue.version>
+		<s2.common.version>0.1.12-SNAPSHOT</s2.common.version>
 	</properties>
 	
 	<repositories>
@@ -106,12 +105,12 @@
 		<dependency>
 			<groupId>org.symphonyoss.s2.fugue</groupId>
 			<artifactId>fugue-di</artifactId>
-			<version>${fugue.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.symphonyoss.s2.fugue</groupId>
 			<artifactId>fugue-core</artifactId>
-			<version>${fugue.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.symphonyoss.s2.common</groupId>
@@ -157,7 +156,7 @@
 											org.symphonyoss.s2.japigen
 										</groupId>
 										<artifactId>
-											S2-japigen-maven-plugin
+											canon-maven-plugin
 										</artifactId>
 										<versionRange>
 											[0.0.1-SNAPSHOT,)
