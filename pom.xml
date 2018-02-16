@@ -26,7 +26,7 @@
 	<parent>
 		<groupId>org.symphonyoss.s2</groupId>
 		<artifactId>S2-super-pom</artifactId>
-		<version>0.1.4</version>
+		<version>0.1.5</version>
 	</parent>
 
 	<groupId>org.symphonyoss.s2.fugue</groupId>
@@ -36,6 +36,14 @@
 	<description>Fugue example projects.</description>
 	<url>https://github.com/SymphonyOSF/fugue-example</url>
 	<packaging>pom</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <fugue.version>0.0.3</fugue.version>
+    <s2.common.version>0.1.12-SNAPSHOT</s2.common.version>
+  </properties>
 
 	<modules>
 		<module>fugue-example-hello</module>
@@ -70,13 +78,6 @@
       </roles>
     </developer>
   </developers>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<s2.common.version>0.1.12-SNAPSHOT</s2.common.version>
-	</properties>
 	
 	<repositories>
     <repository>
@@ -105,12 +106,12 @@
 		<dependency>
 			<groupId>org.symphonyoss.s2.fugue</groupId>
 			<artifactId>fugue-di</artifactId>
-			<version>${project.version}</version>
+			<version>${fugue.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.symphonyoss.s2.fugue</groupId>
 			<artifactId>fugue-core</artifactId>
-			<version>${project.version}</version>
+			<version>${fugue.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.symphonyoss.s2.common</groupId>
