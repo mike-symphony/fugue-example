@@ -31,7 +31,7 @@
 
 	<groupId>org.symphonyoss.s2.fugue</groupId>
 	<artifactId>fugue-example</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>fugue</name>
 	<description>Fugue example projects.</description>
 	<url>https://github.com/SymphonyOSF/fugue-example</url>
@@ -169,7 +169,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore></ignore>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
