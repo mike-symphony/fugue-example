@@ -31,7 +31,7 @@
 
 	<groupId>org.symphonyoss.s2.fugue</groupId>
 	<artifactId>fugue-example</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.4</version>
 	<name>fugue</name>
 	<description>Fugue example projects.</description>
 	<url>https://github.com/SymphonyOSF/fugue-example</url>
@@ -62,7 +62,7 @@
     <connection>scm:git:git://github.com/SymphonyOSF/fugue-example.git</connection>
     <developerConnection>scm:git:git@github.com:SymphonyOSF/fugue-example.git</developerConnection>
     <url>https://github.com/SymphonyOSF/fugue-example</url>
-    <tag>HEAD</tag>
+    <tag>fugue-example-0.0.4</tag>
   </scm>
 
   <developers>
