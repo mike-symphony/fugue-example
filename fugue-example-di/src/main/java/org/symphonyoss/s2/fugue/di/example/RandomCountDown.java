@@ -24,7 +24,6 @@
 package org.symphonyoss.s2.fugue.di.example;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.symphonyoss.s2.fugue.FugueServer;
 import org.symphonyoss.s2.fugue.di.ComponentDescriptor;
@@ -70,9 +69,11 @@ public class RandomCountDown extends FugueServer
   {
     log_.info("RandomCountDown started.");
     
-    submit(() ->
+    ExecutorService exec = newExecutor("CountDown");
+    
+    exec.submit(() ->
     {
-      int count = random_.nextInt(10);
+      int count = random_.nextInt(10) + 5;
       
       while(count-- > 0)
       {
@@ -86,6 +87,7 @@ public class RandomCountDown extends FugueServer
         }
       }
       
+      exec.shutdown();
       stop();
     });
   }
