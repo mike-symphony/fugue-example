@@ -32,6 +32,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.symphonyoss.s2.fugue.ServletComponent;
 
+/**
+ * A simple servlter which says "Hello World".
+ * 
+ * @author Bruce Skingle
+ *
+ */
 public class HelloWorldServlet extends ServletComponent
 {
   private static final long serialVersionUID = 1L;

@@ -31,25 +31,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.symphonyoss.s2.fugue.ServletComponent;
-import org.symphonyoss.s2.fugue.di.ComponentDescriptor;
 
 public abstract class AbstractPubSubServlet extends ServletComponent
 {
   private static final long serialVersionUID = 1L;
 
+  private final IPubSubExmple     pubSubExample_;
   private final String      name_;
-  private IPubSubExmple     pubSubExample_;
   
-  public AbstractPubSubServlet(String name)
+  public AbstractPubSubServlet(IPubSubExmple pubSubExample, String name)
   {
+    pubSubExample_ = pubSubExample;
     name_ = name;
-  }
-
-  @Override
-  public ComponentDescriptor getComponentDescriptor()
-  {
-    return super.getComponentDescriptor()
-        .addDependency(IPubSubExmple.class, (v) -> pubSubExample_ = v);
   }
 
   @Override

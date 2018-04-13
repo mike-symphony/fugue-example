@@ -45,9 +45,9 @@ public class SubServlet extends AbstractPubSubServlet
   private static final long serialVersionUID = 1L;
   private static final Logger log_ = LoggerFactory.getLogger(SubServlet.class);
 
-  public SubServlet()
+  public SubServlet(PubSubExmple pubSubExample)
   {
-    super("Subscriber");
+    super(pubSubExample, "Subscriber");
   }
   
   @Override

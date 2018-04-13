@@ -41,13 +41,12 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <fugue.version>0.0.6</fugue.version>
+    <fugue.version>0.0.7-SNAPSHOT</fugue.version>
     <s2.common.version>0.1.16</s2.common.version>
   </properties>
 
 	<modules>
 		<module>fugue-example-hello</module>
-		<module>fugue-example-di</module>
 		<module>fugue-example-pubsub</module>
 	</modules>
 	
@@ -105,27 +104,18 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.symphonyoss.s2.fugue</groupId>
-			<artifactId>fugue-di</artifactId>
-			<version>${fugue.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.symphonyoss.s2.fugue</groupId>
 			<artifactId>fugue-core</artifactId>
 			<version>${fugue.version}</version>
 		</dependency>
 		<dependency>
+      <groupId>org.symphonyoss.s2.fugue</groupId>
+      <artifactId>fugue-launch</artifactId>
+      <version>${fugue.version}</version>
+    </dependency>
+		<dependency>
 			<groupId>org.symphonyoss.s2.common</groupId>
 			<artifactId>S2-common-core</artifactId>
 			<version>${s2.common.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.0.13</version>
 		</dependency>
 	</dependencies>
 	
