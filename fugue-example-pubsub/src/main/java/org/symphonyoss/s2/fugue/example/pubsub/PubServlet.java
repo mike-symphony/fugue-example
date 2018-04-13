@@ -46,9 +46,9 @@ public class PubServlet extends AbstractPubSubServlet
   private static final long serialVersionUID = 1L;
   private static final Logger log_ = LoggerFactory.getLogger(PubServlet.class);
 
-  public PubServlet()
+  public PubServlet(IPubSubExmple pubSubExmple)
   {
-    super("Publisher");
+    super(pubSubExmple, "Publisher");
   }
   
   @Override

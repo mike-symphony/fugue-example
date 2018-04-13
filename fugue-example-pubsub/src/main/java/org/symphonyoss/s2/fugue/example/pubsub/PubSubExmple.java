@@ -27,9 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.symphonyoss.s2.common.fault.ProgramFault;
 import org.symphonyoss.s2.fugue.FugueServer;
-import org.symphonyoss.s2.fugue.di.ComponentDescriptor;
-import org.symphonyoss.s2.fugue.di.IDIContext;
-import org.symphonyoss.s2.fugue.di.component.impl.Slf4jLogComponent;
 
 import com.google.api.gax.rpc.ApiException;
 import com.google.cloud.ServiceOptions;
@@ -53,22 +50,9 @@ public class PubSubExmple extends FugueServer implements IPubSubExmple
   public PubSubExmple()
   {
     super("PubSubExmple", 8080);
-  }
-  
-  @Override
-  protected void registerComponents(IDIContext diContext)
-  {
-    diContext.register(new Slf4jLogComponent())
-    .register(new PubServlet())
-    .register(new SubServlet());
-  }
-
-  @Override
-  public ComponentDescriptor getComponentDescriptor()
-  {
-    return super.getComponentDescriptor()
-        .addProvidedInterface(IPubSubExmple.class)
-        .addStart(() -> startPubSub());
+    
+    registerServlet(new PubServlet(this));
+    registerServlet(new SubServlet(this));
   }
   
   @Override
@@ -85,12 +69,17 @@ public class PubSubExmple extends FugueServer implements IPubSubExmple
     return status_.toString();
   }
 
-  private void startPubSub()
+  @Override
+  public FugueServer start()
   {
+    super.start();
+
     // Your Google Cloud Platform project ID
     String projectId = ServiceOptions.getDefaultProjectId();
     
     createTopic(projectId);
+    
+    return this;
   }
 
   private void createTopic(String projectId)
@@ -114,6 +103,7 @@ public class PubSubExmple extends FugueServer implements IPubSubExmple
       {
         case ALREADY_EXISTS:
           appendStatus("Topic already exists");
+          createSubscription(projectId, topicName);
           break;
         
         default:

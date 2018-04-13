@@ -47,7 +47,6 @@
 
 	<modules>
 		<module>fugue-example-hello</module>
-		<module>fugue-example-di</module>
 		<module>fugue-example-pubsub</module>
 	</modules>
 	
@@ -103,11 +102,6 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.symphonyoss.s2.fugue</groupId>
-			<artifactId>fugue-di</artifactId>
-			<version>${fugue.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.symphonyoss.s2.fugue</groupId>
 			<artifactId>fugue-core</artifactId>
