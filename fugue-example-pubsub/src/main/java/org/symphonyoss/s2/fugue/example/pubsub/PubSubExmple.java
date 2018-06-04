@@ -51,8 +51,8 @@ public class PubSubExmple extends FugueServer implements IPubSubExmple
   {
     super("PubSubExmple", 8080);
     
-    registerServlet(new PubServlet(this));
-    registerServlet(new SubServlet(this));
+    register(new PubServlet(this));
+    register(new SubServlet(this));
   }
   
   @Override
