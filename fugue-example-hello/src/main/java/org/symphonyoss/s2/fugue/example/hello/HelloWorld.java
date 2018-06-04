@@ -40,7 +40,7 @@ public class HelloWorld extends FugueServer
   {
     super("HelloWorld", 8080);
     
-    registerServlet(new HelloWorldServlet());
+    register(new HelloWorldServlet());
   }
 
   @Override
@@ -48,7 +48,7 @@ public class HelloWorld extends FugueServer
   {
     super.start();
     
-    openBrowser();
+    openBrowser(null);
     
     return this;
   }
