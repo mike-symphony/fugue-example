@@ -23,6 +23,7 @@
 
 package org.symphonyoss.s2.fugue.example.hello;
 
+import org.slf4j.LoggerFactory;
 import org.symphonyoss.s2.fugue.FugueServer;
 
 /**
@@ -52,16 +53,24 @@ public class HelloWorld extends FugueServer
     
     return this;
   }
-
+  
   /**
-   * Launcher.
+   * Main.
    * 
-   * @param args  Command line arguments, ignored.
-   * 
-   * @throws InterruptedException If the main thread is interrupted.
+   * @param argv Command line arguments, ignored.
    */
-  public static void main(String[] args) throws InterruptedException
+  public static void main(String[] argv)
   {
-    new HelloWorld().start().join();
+    try
+    {
+      HelloWorld server = new HelloWorld();
+      
+      server.start().join();
+    }
+    catch (RuntimeException | InterruptedException e)
+    {
+      LoggerFactory.getLogger(HelloWorld.class).error("Failed", e);
+      System.exit(1);
+    }
   }
 }

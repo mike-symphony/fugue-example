@@ -158,9 +158,24 @@ public class PubSubExmple extends FugueServer implements IPubSubExmple
 
     
   }
-
-  public static void main(String[] args) throws InterruptedException
+  
+  /**
+   * Main.
+   * 
+   * @param argv Command line arguments.
+   */
+  public static void main(String[] argv)
   {
-    new PubSubExmple().start().join();
+    try
+    {
+      PubSubExmple server = new PubSubExmple();
+      
+      server.start().join();
+    }
+    catch (RuntimeException | InterruptedException e)
+    {
+      LoggerFactory.getLogger(PubSubExmple.class).error("Failed", e);
+      System.exit(1);
+    }
   }
 }
